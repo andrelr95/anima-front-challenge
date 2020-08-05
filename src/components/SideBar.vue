@@ -11,12 +11,13 @@
       </div>
     </div>
     <div class="sidebar">
-      <div class="sidebar-backdrop" v-if="isOpen" @click="openPanel"></div>
+      <div class="sidebar-backdrop" v-if="isOpen && !isSidebarFixed" @click="openPanel"></div>
       <transition name="slide">
-        <aside class="sidebar-panel" v-if="isOpen">
+        <aside class="sidebar-panel" v-if="isOpen || isSidebarFixed">
 
           <div class="logo">
             <span>LOGOTIPO</span>
+            <h1>{{$vssWidth}}</h1>
           </div>
 
           <nav id="nav" class="nav-container">
@@ -40,14 +41,21 @@
   </div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+<script>
+import VueScreenSize from 'vue-screen-size'
+
+export default ({
   name: 'Sidebar',
+  mixins: [VueScreenSize.VueScreenSizeMixin],
   data() {
     return {
-      isOpen: true   
+      isOpen: false,
     }
+  },
+  computed: {
+    isSidebarFixed() {
+      return this.$vssWidth > 768
+    },
   },
   methods: {
     openPanel() {
