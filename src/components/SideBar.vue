@@ -3,8 +3,8 @@
     <div class="navbar">
       <button class="button-menu" @click="openPanel" type="button">
         <span class="burger-bar"></span>
-        <span class="burger-bar"></span>
-        <span class="burger-bar"></span>
+        <span class="burger-bar burger-bar__2"></span>
+        <span class="burger-bar burger-bar__3"></span>
       </button>
       <div class="logo">
         <span>LOGOTIPO</span>
@@ -97,18 +97,26 @@ export default ({
     background-color: transparent;
     margin-left: 16px;
     position: absolute;
+    display: flex;
+    padding:8px;
+    flex-direction: column;
+    justify-content: space-around;
     cursor: pointer;
   }
 
   .burger-bar {
     background-color: white;
-    position: absolute;
-    top: 50%;
-    right: 6px;
-    left: 6px;
     height: 2px;
-    width: auto;
+    width: 100%;
     margin: 1px;
+
+    &.burger-bar__2 {
+      width: 60%;
+    }
+
+    &.burger-bar__3 {
+      width: 80%;
+    }
   }
 
   .sidebar {
@@ -123,6 +131,7 @@ export default ({
       position: fixed;
       background-color: #333;
       opacity: 0.5;
+      z-index: 1;
       cursor: pointer;
       width: 100vw;
       height: 100vh;

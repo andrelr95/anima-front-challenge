@@ -28,6 +28,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+
 import IconBase from './IconBase.vue'
 import IconDolarSign from './icons/IconDolarSign.vue'
 
@@ -53,6 +54,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
   .card {
     padding: 24px;
+    margin-bottom: 48px;
     position: relative;
     background-color: #FFF;
     display: flex;
@@ -82,7 +84,7 @@ export default Vue.extend({
       display: flex;
       align-items: center;
       position: absolute;
-      transform: translateY(-50%) translateX(10%);
+      transform: translate(10%, -50%);
       top: 0;
       right: 0;
       padding: 8px 16px;
@@ -110,6 +112,23 @@ export default Vue.extend({
         &:hover {
           opacity: 0.8;
         }
+      }
+    }
+  }
+  @media screen and (max-width: 768px) {
+    .card {
+
+      .left-content {
+        display: none;
+      }
+      .card-header {
+        margin: 16px 0;
+      }
+      .card-body {
+        margin: 32px 0;
+      }
+      .card-tag {
+        transform: translate(5%, -50%);
       }
     }
   }

@@ -37,11 +37,13 @@ export default Vue.extend({
   }
   main {
     width: calc(100% - 228px);
+    height: 100vh;
+    overflow-y: auto;
     float: right;
     padding: 28px 122px;
 
     @media screen and (max-width: 768px) {
-      width: 100%;
+      width: 100vw;
       padding: 16px;
       margin-top: 80px;
     }
