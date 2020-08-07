@@ -3,7 +3,17 @@
     <h1 class="title-header">Pessoas que vão ganhar dinheiro</h1>
     <Card leftContent tag>
       <span slot="header">Nome da Pessoa Vai aqui</span>
-      <span slot="body">Ao clicar no link abaixo, uma dialog irá aparecer perguntando quantos reais você deseja adicionar a barra de progresso. A barra deve começar em 0.</span>
+      <div slot="body">
+        <span>Ao clicar no link abaixo, uma dialog irá aparecer perguntando quantos reais você deseja adicionar a barra de progresso. A barra deve começar em 0.</span>
+        <progress-bar :currentValue="currentValue" :totalValue="totalValue">
+          <template slot="current-progress">
+            {{ formatMoney(currentValue) }}
+          </template>
+          <template slot="goal">
+            {{ formatMoney(totalValue) }}
+          </template>
+        </progress-bar>
+      </div>
       <button class="btn btn-link" slot="footer" @click="openModal">
         <icon-base icon-name="plus" width="21" height="21" iconColor="#059D42">
           <icon-plus />
@@ -12,178 +22,7 @@
       </button>
       <template slot="tag">
         <icon-base icon-name="dolar-sign" width="24" height="24" iconColor="#FFF"><icon-dolar-sign-small /></icon-base>
-        Você já adicionou R$ 125,00
-      </template>
-    </Card>
-    <Card leftContent tag>
-      <span slot="header">Nome da Pessoa Vai aqui</span>
-      <span slot="body">Ao clicar no link abaixo, uma dialog irá aparecer perguntando quantos reais você deseja adicionar a barra de progresso. A barra deve começar em 0.</span>
-      <button class="btn btn-link" slot="footer" @click="openModal">
-        <icon-base icon-name="plus" width="21" height="21" iconColor="#059D42">
-          <icon-plus />
-        </icon-base>  
-        Clique aqui para adicionar reais
-      </button>
-      <template slot="tag">
-        <icon-base icon-name="dolar-sign" width="24" height="24" iconColor="#FFF"><icon-dolar-sign-small /></icon-base>
-        Você já adicionou R$ 125,00
-      </template>
-    </Card>    <Card leftContent tag>
-      <span slot="header">Nome da Pessoa Vai aqui</span>
-      <span slot="body">Ao clicar no link abaixo, uma dialog irá aparecer perguntando quantos reais você deseja adicionar a barra de progresso. A barra deve começar em 0.</span>
-      <button class="btn btn-link" slot="footer" @click="openModal">
-        <icon-base icon-name="plus" width="21" height="21" iconColor="#059D42">
-          <icon-plus />
-        </icon-base>  
-        Clique aqui para adicionar reais
-      </button>
-      <template slot="tag">
-        <icon-base icon-name="dolar-sign" width="24" height="24" iconColor="#FFF"><icon-dolar-sign-small /></icon-base>
-        Você já adicionou R$ 125,00
-      </template>
-    </Card>    <Card leftContent tag>
-      <span slot="header">Nome da Pessoa Vai aqui</span>
-      <span slot="body">Ao clicar no link abaixo, uma dialog irá aparecer perguntando quantos reais você deseja adicionar a barra de progresso. A barra deve começar em 0.</span>
-      <button class="btn btn-link" slot="footer" @click="openModal">
-        <icon-base icon-name="plus" width="21" height="21" iconColor="#059D42">
-          <icon-plus />
-        </icon-base>  
-        Clique aqui para adicionar reais
-      </button>
-      <template slot="tag">
-        <icon-base icon-name="dolar-sign" width="24" height="24" iconColor="#FFF"><icon-dolar-sign-small /></icon-base>
-        Você já adicionou R$ 125,00
-      </template>
-    </Card>    <Card leftContent tag>
-      <span slot="header">Nome da Pessoa Vai aqui</span>
-      <span slot="body">Ao clicar no link abaixo, uma dialog irá aparecer perguntando quantos reais você deseja adicionar a barra de progresso. A barra deve começar em 0.</span>
-      <button class="btn btn-link" slot="footer" @click="openModal">
-        <icon-base icon-name="plus" width="21" height="21" iconColor="#059D42">
-          <icon-plus />
-        </icon-base>  
-        Clique aqui para adicionar reais
-      </button>
-      <template slot="tag">
-        <icon-base icon-name="dolar-sign" width="24" height="24" iconColor="#FFF"><icon-dolar-sign-small /></icon-base>
-        Você já adicionou R$ 125,00
-      </template>
-    </Card>
-        <Card leftContent tag>
-      <span slot="header">Nome da Pessoa Vai aqui</span>
-      <span slot="body">Ao clicar no link abaixo, uma dialog irá aparecer perguntando quantos reais você deseja adicionar a barra de progresso. A barra deve começar em 0.</span>
-      <button class="btn btn-link" slot="footer" @click="openModal">
-        <icon-base icon-name="plus" width="21" height="21" iconColor="#059D42">
-          <icon-plus />
-        </icon-base>  
-        Clique aqui para adicionar reais
-      </button>
-      <template slot="tag">
-        <icon-base icon-name="dolar-sign" width="24" height="24" iconColor="#FFF"><icon-dolar-sign-small /></icon-base>
-        Você já adicionou R$ 125,00
-      </template>
-    </Card>    <Card leftContent tag>
-      <span slot="header">Nome da Pessoa Vai aqui</span>
-      <span slot="body">Ao clicar no link abaixo, uma dialog irá aparecer perguntando quantos reais você deseja adicionar a barra de progresso. A barra deve começar em 0.</span>
-      <button class="btn btn-link" slot="footer" @click="openModal">
-        <icon-base icon-name="plus" width="21" height="21" iconColor="#059D42">
-          <icon-plus />
-        </icon-base>  
-        Clique aqui para adicionar reais
-      </button>
-      <template slot="tag">
-        <icon-base icon-name="dolar-sign" width="24" height="24" iconColor="#FFF"><icon-dolar-sign-small /></icon-base>
-        Você já adicionou R$ 125,00
-      </template>
-    </Card>    <Card leftContent tag>
-      <span slot="header">Nome da Pessoa Vai aqui</span>
-      <span slot="body">Ao clicar no link abaixo, uma dialog irá aparecer perguntando quantos reais você deseja adicionar a barra de progresso. A barra deve começar em 0.</span>
-      <button class="btn btn-link" slot="footer" @click="openModal">
-        <icon-base icon-name="plus" width="21" height="21" iconColor="#059D42">
-          <icon-plus />
-        </icon-base>  
-        Clique aqui para adicionar reais
-      </button>
-      <template slot="tag">
-        <icon-base icon-name="dolar-sign" width="24" height="24" iconColor="#FFF"><icon-dolar-sign-small /></icon-base>
-        Você já adicionou R$ 125,00
-      </template>
-    </Card>    <Card leftContent tag>
-      <span slot="header">Nome da Pessoa Vai aqui</span>
-      <span slot="body">Ao clicar no link abaixo, uma dialog irá aparecer perguntando quantos reais você deseja adicionar a barra de progresso. A barra deve começar em 0.</span>
-      <button class="btn btn-link" slot="footer" @click="openModal">
-        <icon-base icon-name="plus" width="21" height="21" iconColor="#059D42">
-          <icon-plus />
-        </icon-base>  
-        Clique aqui para adicionar reais
-      </button>
-      <template slot="tag">
-        <icon-base icon-name="dolar-sign" width="24" height="24" iconColor="#FFF"><icon-dolar-sign-small /></icon-base>
-        Você já adicionou R$ 125,00
-      </template>
-    </Card>    <Card leftContent tag>
-      <span slot="header">Nome da Pessoa Vai aqui</span>
-      <span slot="body">Ao clicar no link abaixo, uma dialog irá aparecer perguntando quantos reais você deseja adicionar a barra de progresso. A barra deve começar em 0.</span>
-      <button class="btn btn-link" slot="footer" @click="openModal">
-        <icon-base icon-name="plus" width="21" height="21" iconColor="#059D42">
-          <icon-plus />
-        </icon-base>  
-        Clique aqui para adicionar reais
-      </button>
-      <template slot="tag">
-        <icon-base icon-name="dolar-sign" width="24" height="24" iconColor="#FFF"><icon-dolar-sign-small /></icon-base>
-        Você já adicionou R$ 125,00
-      </template>
-    </Card>    <Card leftContent tag>
-      <span slot="header">Nome da Pessoa Vai aqui</span>
-      <span slot="body">Ao clicar no link abaixo, uma dialog irá aparecer perguntando quantos reais você deseja adicionar a barra de progresso. A barra deve começar em 0.</span>
-      <button class="btn btn-link" slot="footer" @click="openModal">
-        <icon-base icon-name="plus" width="21" height="21" iconColor="#059D42">
-          <icon-plus />
-        </icon-base>  
-        Clique aqui para adicionar reais
-      </button>
-      <template slot="tag">
-        <icon-base icon-name="dolar-sign" width="24" height="24" iconColor="#FFF"><icon-dolar-sign-small /></icon-base>
-        Você já adicionou R$ 125,00
-      </template>
-    </Card>    <Card leftContent tag>
-      <span slot="header">Nome da Pessoa Vai aqui</span>
-      <span slot="body">Ao clicar no link abaixo, uma dialog irá aparecer perguntando quantos reais você deseja adicionar a barra de progresso. A barra deve começar em 0.</span>
-      <button class="btn btn-link" slot="footer" @click="openModal">
-        <icon-base icon-name="plus" width="21" height="21" iconColor="#059D42">
-          <icon-plus />
-        </icon-base>  
-        Clique aqui para adicionar reais
-      </button>
-      <template slot="tag">
-        <icon-base icon-name="dolar-sign" width="24" height="24" iconColor="#FFF"><icon-dolar-sign-small /></icon-base>
-        Você já adicionou R$ 125,00
-      </template>
-    </Card>    <Card leftContent tag>
-      <span slot="header">Nome da Pessoa Vai aqui</span>
-      <span slot="body">Ao clicar no link abaixo, uma dialog irá aparecer perguntando quantos reais você deseja adicionar a barra de progresso. A barra deve começar em 0.</span>
-      <button class="btn btn-link" slot="footer" @click="openModal">
-        <icon-base icon-name="plus" width="21" height="21" iconColor="#059D42">
-          <icon-plus />
-        </icon-base>  
-        Clique aqui para adicionar reais
-      </button>
-      <template slot="tag">
-        <icon-base icon-name="dolar-sign" width="24" height="24" iconColor="#FFF"><icon-dolar-sign-small /></icon-base>
-        Você já adicionou R$ 125,00
-      </template>
-    </Card>    <Card leftContent tag>
-      <span slot="header">Nome da Pessoa Vai aqui</span>
-      <span slot="body">Ao clicar no link abaixo, uma dialog irá aparecer perguntando quantos reais você deseja adicionar a barra de progresso. A barra deve começar em 0.</span>
-      <button class="btn btn-link" slot="footer" @click="openModal">
-        <icon-base icon-name="plus" width="21" height="21" iconColor="#059D42">
-          <icon-plus />
-        </icon-base>  
-        Clique aqui para adicionar reais
-      </button>
-      <template slot="tag">
-        <icon-base icon-name="dolar-sign" width="24" height="24" iconColor="#FFF"><icon-dolar-sign-small /></icon-base>
-        Você já adicionou R$ 125,00
+        Você já adicionou {{ formatMoney(currentValue)}}
       </template>
     </Card>
     <modal 
@@ -210,6 +49,7 @@ import IconBase from '@/components/IconBase.vue'
 import IconPlus from '@/components/icons/IconPlus.vue'
 import IconDolarSignSmall from '@/components/icons/IconDolarSignSmall.vue'
 import Modal from '@/components/Modal.vue'
+import ProgressBar from '@/components/ProgressBar.vue'
 
 export default Vue.extend({
   components: {
@@ -217,11 +57,17 @@ export default Vue.extend({
     IconBase,
     IconPlus,
     IconDolarSignSmall,
-    Modal
+    Modal,
+    ProgressBar
+  },
+  created() {
+    this.autoUpdateProgress()
   },
   data() {
     return {
-      isOpenDialog: false
+      isOpenDialog: false,
+      currentValue: 0,
+      totalValue: 250
     }
   },
   methods: {
@@ -231,6 +77,16 @@ export default Vue.extend({
     closeModal() {
       this.isOpenDialog = false
     },
+    autoUpdateProgress() {
+      setInterval(() => {
+        if (this.currentValue < 250) {
+          this.currentValue = this.currentValue + 1
+        }
+      }, 100)
+    },
+    formatMoney(value: number) {
+      return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value)
+    }
 
   }
 })
