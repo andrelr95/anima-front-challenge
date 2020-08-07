@@ -4,6 +4,7 @@
     <Card leftContent tag>
       <span slot="header">Nome da Pessoa Vai aqui</span>
       <div slot="body">
+        <span>{{ employees }}</span>
         <span>Ao clicar no link abaixo, uma dialog irá aparecer perguntando quantos reais você deseja adicionar a barra de progresso. A barra deve começar em 0.</span>
         <progress-bar :currentValue="currentValue" :totalValue="totalValue">
           <template slot="current-progress">
@@ -42,7 +43,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from 'vue'
 import Card from '@/components/Card.vue'
 import IconBase from '@/components/IconBase.vue'
@@ -70,6 +71,12 @@ export default Vue.extend({
       totalValue: 250
     }
   },
+  computed: {
+    employees () {
+      console.log('employees', this.$store.state.employees.data)
+      return this.$store.state.employees.data
+    }
+  },
   methods: {
     openModal() {
       this.isOpenDialog = true
@@ -84,7 +91,7 @@ export default Vue.extend({
         }
       }, 100)
     },
-    formatMoney(value: number) {
+    formatMoney(value) {
       return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value)
     }
 
