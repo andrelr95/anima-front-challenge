@@ -2,20 +2,20 @@
   <div>
     <h1 class="title-header">Pessoas que vão ganhar dinheiro</h1>
     <div v-for="employee in employees" :key="employee.id">
-      <Card leftContent tag :tagError="employee.employee_salary === 0">
+      <Card leftContent tag :tagError="!currentValue">
         <span slot="header">{{ employee.employee_name }} - {{ employee.employee_age }} anos.</span>
         <div slot="body">
           <span>Ao clicar no link abaixo, uma dialog irá aparecer perguntando quantos reais você deseja adicionar a barra de progresso. A barra deve começar em 0.</span>
-          <progress-bar :currentValue="currentValue" :totalValue="totalValue">
+          <progress-bar :currentValue="currentValue" :totalValue="employee.employee_salary">
             <template slot="current-progress">
               {{ formatMoney(currentValue) }}
             </template>
             <template slot="goal">
-              {{ formatMoney(totalValue) }}
+              {{ formatMoney(employee.employee_salary) }}
             </template>
           </progress-bar>
         </div>
-        <button class="btn btn-link" slot="footer" @click="openModal">
+        <button class="btn btn-link" slot="footer" @click="openModal(employee)">
           <icon-base icon-name="plus" width="21" height="21" iconColor="#059D42">
             <icon-plus />
           </icon-base>  
@@ -23,22 +23,30 @@
         </button>
         <template slot="tag">
           <icon-base icon-name="dolar-sign" width="24" height="24" iconColor="#FFF"><icon-dolar-sign-small /></icon-base>
-          Você já adicionou {{ formatMoney(employee.employee_salary)}}
+          {{ currentValue ? `Você já adicionou ${formatMoney(currentValue)}.` : 'Você não adicionou nada.'}}
         </template>
       </Card>
     </div>
     <modal 
       v-show="isOpenDialog"
-      title="Quantos reais adicionar para "
+      v-if="selectedEmployee"
+      :title="`Quantos reais adicionar para ${selectedEmployee.employee_name}?`"
       @closeModal="closeModal"
     >
       <template slot="body">
         <div class="cards-container">
-          <div class="card-value">R$ 25</div>
-          <div class="card-value">R$ 50</div>
-          <div class="card-value">R$ 75</div>
-          <div class="card-value">R$ 125</div>
+          <div 
+            v-for="(value) in [25, 50, 75, 125]"
+            :key="value"
+            class="card-value"
+            :class="{ 'card-value__active': moneyToSend === value }" 
+            @click="setValue(value)">
+            {{ formatMoney(value) }}
+          </div>
         </div>
+      </template>
+      <template slot="footer">
+        <button class="btn-submit" :disabled="moneyToSend === 0" @click="sendValue(moneyToSend)">Confirmar</button>
       </template>
     </modal>
   </div>
@@ -46,13 +54,13 @@
 
 <script>
 import Vue from 'vue'
+import { mapActions, mapState, mapGetters } from 'vuex'
 import Card from '@/components/Card.vue'
 import IconBase from '@/components/IconBase.vue'
 import IconPlus from '@/components/icons/IconPlus.vue'
 import IconDolarSignSmall from '@/components/icons/IconDolarSignSmall.vue'
 import Modal from '@/components/Modal.vue'
 import ProgressBar from '@/components/ProgressBar.vue'
-import { mapActions, mapState } from 'vuex'
 
 export default Vue.extend({
   components: {
@@ -68,22 +76,34 @@ export default Vue.extend({
   },
   data() {
     return {
+      selectedEmployee: null,
       isOpenDialog: false,
       currentValue: 0,
-      totalValue: 250
+      moneyToSend: 0,
     }
   },
   computed: {
     ...mapState({
       employees: state => state.employees.data,
       hasError: state => state.employees.hasError
-    })
+    }),
+    ...mapGetters([
+      'emptySallary'
+    ])
   },
   methods: {
-    openModal() {
+    setValue(value) {
+      this.moneyToSend = value
+    },
+    sendValue(value) {
+      console.log({value, selectedEmployee: this.selectedEmployee.employee_name})
+    },
+    openModal(employee) {
+      this.selectedEmployee = employee
       this.isOpenDialog = true
     },
     closeModal() {
+      this.moneyToSend = 0
       this.isOpenDialog = false
     },
     formatMoney(value) {
@@ -107,6 +127,24 @@ export default Vue.extend({
     opacity: 0.7;
   }
 
+  .btn-submit {
+    margin-right: 16px;
+    padding: 8px 16px;
+    outline: none;
+    cursor: pointer;
+    border-radius: 4px;
+    color: #FFF;
+    background-color: #059D42;
+
+    &:hover {
+      opacity: .8;
+    }
+    &:disabled {
+      opacity: .2;
+      cursor: not-allowed
+    }
+  }
+
   .cards-container {
     display: flex;
     flex-wrap: wrap;
@@ -114,6 +152,11 @@ export default Vue.extend({
     justify-content: center;
     width: 640px;
   }
+
+  .cards-container__footer {
+    display: flex;
+  }
+
   .card-value {
     width: 240px;
     display: flex;
@@ -130,6 +173,10 @@ export default Vue.extend({
     &:hover {
       opacity: 0.8;
     }
+  }
+
+  .card-value__active {
+    border: 1px solid #059D42;
   }
 
   @media screen and (max-width: 768px) {

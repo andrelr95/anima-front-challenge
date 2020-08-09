@@ -11,7 +11,9 @@
       <div class="modal-body">
         <slot name="body"></slot>
       </div>
-      <div class="modal-footer"></div>
+      <div class="modal-footer">
+        <slot name="footer"></slot>
+      </div>
     </div>
   </div>
 </template>
@@ -97,6 +99,9 @@ export default Vue.extend({
   .modal-footer {
     background-color: #F5F5F5;
     min-height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
     border: 0.5px solid #D2D2D2;
   }
 

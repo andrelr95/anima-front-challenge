@@ -1,5 +1,7 @@
-export type TState = {
+type TState = {
   data: any,
   isLoading: boolean,
   hasError: boolean
 }
+
+export default TState
