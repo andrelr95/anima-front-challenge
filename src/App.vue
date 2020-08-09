@@ -33,6 +33,10 @@ export default Vue.extend({
     #app {
       width: 100%;
       height: 100vh;
+      
+        @media screen and (max-width: 768px) {
+        overflow-y: hidden;
+      }
     }
   }
   main {
@@ -44,6 +48,7 @@ export default Vue.extend({
 
     @media screen and (max-width: 768px) {
       width: 100vw;
+      height: calc(100% - 56px);
       padding: 16px;
       margin-top: 80px;
     }

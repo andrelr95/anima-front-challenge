@@ -20,7 +20,7 @@
         </slot>
       </div>
     </div>
-    <div v-if="tag" class="card-tag">
+    <div v-if="tag" :class="['card-tag', { 'card-tag__danger': tagError }]">
       <slot name="tag">Tag content</slot>
     </div>
   </div>
@@ -44,6 +44,10 @@ export default Vue.extend({
       default: false
     },
     tag: {
+      type: Boolean,
+      default: false
+    },
+    tagError: {
       type: Boolean,
       default: false
     }
@@ -96,6 +100,10 @@ export default Vue.extend({
       > :first-child {
         margin-right: 4px;
       }
+    }
+
+    .card-tag__danger {
+      background-color: #E14646;
     }
     .btn {
       &.btn-link {

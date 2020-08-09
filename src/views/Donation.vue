@@ -1,34 +1,35 @@
 <template>
   <div>
     <h1 class="title-header">Pessoas que vão ganhar dinheiro</h1>
-    <Card leftContent tag>
-      <span slot="header">Nome da Pessoa Vai aqui</span>
-      <div slot="body">
-        <span>{{ employees }}</span>
-        <span>Ao clicar no link abaixo, uma dialog irá aparecer perguntando quantos reais você deseja adicionar a barra de progresso. A barra deve começar em 0.</span>
-        <progress-bar :currentValue="currentValue" :totalValue="totalValue">
-          <template slot="current-progress">
-            {{ formatMoney(currentValue) }}
-          </template>
-          <template slot="goal">
-            {{ formatMoney(totalValue) }}
-          </template>
-        </progress-bar>
-      </div>
-      <button class="btn btn-link" slot="footer" @click="openModal">
-        <icon-base icon-name="plus" width="21" height="21" iconColor="#059D42">
-          <icon-plus />
-        </icon-base>  
-        Clique aqui para adicionar reais
-      </button>
-      <template slot="tag">
-        <icon-base icon-name="dolar-sign" width="24" height="24" iconColor="#FFF"><icon-dolar-sign-small /></icon-base>
-        Você já adicionou {{ formatMoney(currentValue)}}
-      </template>
-    </Card>
+    <div v-for="employee in employees" :key="employee.id">
+      <Card leftContent tag :tagError="employee.employee_salary === 0">
+        <span slot="header">{{ employee.employee_name }} - {{ employee.employee_age }} anos.</span>
+        <div slot="body">
+          <span>Ao clicar no link abaixo, uma dialog irá aparecer perguntando quantos reais você deseja adicionar a barra de progresso. A barra deve começar em 0.</span>
+          <progress-bar :currentValue="currentValue" :totalValue="totalValue">
+            <template slot="current-progress">
+              {{ formatMoney(currentValue) }}
+            </template>
+            <template slot="goal">
+              {{ formatMoney(totalValue) }}
+            </template>
+          </progress-bar>
+        </div>
+        <button class="btn btn-link" slot="footer" @click="openModal">
+          <icon-base icon-name="plus" width="21" height="21" iconColor="#059D42">
+            <icon-plus />
+          </icon-base>  
+          Clique aqui para adicionar reais
+        </button>
+        <template slot="tag">
+          <icon-base icon-name="dolar-sign" width="24" height="24" iconColor="#FFF"><icon-dolar-sign-small /></icon-base>
+          Você já adicionou {{ formatMoney(employee.employee_salary)}}
+        </template>
+      </Card>
+    </div>
     <modal 
       v-show="isOpenDialog"
-      title="Quantos reais adicionar para [Nome da Pessoa]"
+      title="Quantos reais adicionar para "
       @closeModal="closeModal"
     >
       <template slot="body">
@@ -51,6 +52,7 @@ import IconPlus from '@/components/icons/IconPlus.vue'
 import IconDolarSignSmall from '@/components/icons/IconDolarSignSmall.vue'
 import Modal from '@/components/Modal.vue'
 import ProgressBar from '@/components/ProgressBar.vue'
+import { mapActions, mapState } from 'vuex'
 
 export default Vue.extend({
   components: {
@@ -62,7 +64,7 @@ export default Vue.extend({
     ProgressBar
   },
   created() {
-    this.autoUpdateProgress()
+    this.callEmpoyees()
   },
   data() {
     return {
@@ -72,10 +74,10 @@ export default Vue.extend({
     }
   },
   computed: {
-    employees () {
-      console.log('employees', this.$store.state.employees.data)
-      return this.$store.state.employees.data
-    }
+    ...mapState({
+      employees: state => state.employees.data,
+      hasError: state => state.employees.hasError
+    })
   },
   methods: {
     openModal() {
@@ -84,17 +86,12 @@ export default Vue.extend({
     closeModal() {
       this.isOpenDialog = false
     },
-    autoUpdateProgress() {
-      setInterval(() => {
-        if (this.currentValue < 250) {
-          this.currentValue = this.currentValue + 1
-        }
-      }, 100)
-    },
     formatMoney(value) {
       return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value)
-    }
-
+    },
+    ...mapActions([
+      'callEmpoyees'
+    ])
   }
 })
 </script>
@@ -136,6 +133,9 @@ export default Vue.extend({
   }
 
   @media screen and (max-width: 768px) {
+    .title-header {
+      margin-bottom: 48px;
+    }
     .cards-container {
       width: auto;
     }

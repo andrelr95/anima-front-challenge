@@ -86,7 +86,7 @@ export default ({
     height: 80px;
     display: flex;
     align-items: center;
-    position: absolute;
+    position: fixed;
     background-color: #059D42;
     width: 100%;
   }
