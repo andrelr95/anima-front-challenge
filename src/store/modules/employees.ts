@@ -2,8 +2,7 @@
 import { ActionTree } from 'vuex';
 import { axiosInstance } from '@/api'
 import TState from '@/types/store/state';
-import IEmployee from '@/types/store/Employee'
-import IEmployeeWrapper from '@/types/store/EmployeeWrapper';
+import IEmployee from '@/types/store/Employee';
 
 const state = () => ({
   data: null,
@@ -31,6 +30,14 @@ const mutations = {
     state.isLoading = false
     state.hasError = true
   },
+  setEmployeeCurrentValue(state: TState, payload: { id: number; value: number }) {
+    const employeeIndex = state.data.findIndex((item: IEmployee) => item.id === payload.id)
+    const selectedEmployee = state.data.find((item: IEmployee) => item.id === payload.id)
+    const updatedEmployee = {
+      ...selectedEmployee, 
+      'employee_current_value': selectedEmployee['employee_current_value'] += payload.value }
+    state.data.splice(employeeIndex, 1, updatedEmployee)
+  }
 }
 
 const actions: ActionTree<any, any> = {
@@ -40,15 +47,6 @@ const actions: ActionTree<any, any> = {
       const response = await axiosInstance.get('/employees')
       // Add another control property to monitor progress
       const updatedResponse = response.data.data.map((item: IEmployee) => ({ ...item, 'employee_current_value': 0 }))
-      // Returning an empty value to prove component behavior
-      updatedResponse.push({
-        'employee_age': 24,
-        'employee_name': "Andre Ramos",
-        'employee_salary': 0,
-        'id': 9999,
-        'profile_image': "",
-        'employee_current_value': 0
-      })
       commit('getEmployeesSuccess', updatedResponse)
     } catch (e) {
       console.log(e)

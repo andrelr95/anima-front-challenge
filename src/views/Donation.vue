@@ -2,13 +2,13 @@
   <div>
     <h1 class="title-header">Pessoas que vão ganhar dinheiro</h1>
     <div v-for="employee in employees" :key="employee.id">
-      <Card leftContent tag :tagError="!currentValue">
+      <Card leftContent tag :tagError="!employee.employee_current_value">
         <span slot="header">{{ employee.employee_name }} - {{ employee.employee_age }} anos.</span>
         <div slot="body">
           <span>Ao clicar no link abaixo, uma dialog irá aparecer perguntando quantos reais você deseja adicionar a barra de progresso. A barra deve começar em 0.</span>
-          <progress-bar :currentValue="currentValue" :totalValue="employee.employee_salary">
+          <progress-bar :currentValue="employee.employee_current_value" :totalValue="employee.employee_salary">
             <template slot="current-progress">
-              {{ formatMoney(currentValue) }}
+              {{ formatMoney(employee.employee_current_value) }}
             </template>
             <template slot="goal">
               {{ formatMoney(employee.employee_salary) }}
@@ -23,7 +23,7 @@
         </button>
         <template slot="tag">
           <icon-base icon-name="dolar-sign" width="24" height="24" iconColor="#FFF"><icon-dolar-sign-small /></icon-base>
-          {{ currentValue ? `Você já adicionou ${formatMoney(currentValue)}.` : 'Você não adicionou nada.'}}
+          {{ employee.employee_current_value ? `Você já adicionou ${formatMoney(employee.employee_current_value)}.` : 'Você não adicionou nada.'}}
         </template>
       </Card>
     </div>
@@ -34,19 +34,22 @@
       @closeModal="closeModal"
     >
       <template slot="body">
+        <span class="error-feedback" v-show="isCurrentHigherThanTotal">O valor é maior que o total!</span>
         <div class="cards-container">
           <div 
-            v-for="(value) in [25, 50, 75, 125]"
+            v-for="(value) in [2500, 5000, 7500, 12500]"
             :key="value"
             class="card-value"
-            :class="{ 'card-value__active': moneyToSend === value }" 
+            :class="{ 
+              'card-value__active': moneyToSend === value
+            }" 
             @click="setValue(value)">
             {{ formatMoney(value) }}
           </div>
         </div>
       </template>
       <template slot="footer">
-        <button class="btn-submit" :disabled="moneyToSend === 0" @click="sendValue(moneyToSend)">Confirmar</button>
+        <button class="btn-submit" :disabled="!isInvalid" @click="sendValue(moneyToSend)">Confirmar</button>
       </template>
     </modal>
   </div>
@@ -54,7 +57,7 @@
 
 <script>
 import Vue from 'vue'
-import { mapActions, mapState, mapGetters } from 'vuex'
+import { mapActions, mapState, mapGetters, mapMutations } from 'vuex'
 import Card from '@/components/Card.vue'
 import IconBase from '@/components/IconBase.vue'
 import IconPlus from '@/components/icons/IconPlus.vue'
@@ -78,11 +81,18 @@ export default Vue.extend({
     return {
       selectedEmployee: null,
       isOpenDialog: false,
-      currentValue: 0,
       moneyToSend: 0,
     }
   },
   computed: {
+    isCurrentHigherThanTotal() {
+      const salary = this.selectedEmployee.employee_salary
+      const currentValue = this.selectedEmployee.employee_current_value
+      return currentValue + this.moneyToSend > salary
+    },
+    isInvalid() {
+      return !this.isCurrentHigherThanTotal && !!this.moneyToSend
+    },
     ...mapState({
       employees: state => state.employees.data,
       hasError: state => state.employees.hasError
@@ -96,7 +106,11 @@ export default Vue.extend({
       this.moneyToSend = value
     },
     sendValue(value) {
-      console.log({value, selectedEmployee: this.selectedEmployee.employee_name})
+      this.$store.commit('setEmployeeCurrentValue', { 
+        id :this.selectedEmployee.id, 
+        value
+      })
+      this.closeModal()
     },
     openModal(employee) {
       this.selectedEmployee = employee
@@ -111,6 +125,9 @@ export default Vue.extend({
     },
     ...mapActions([
       'callEmpoyees'
+    ]),
+    ...mapMutations([
+      'setEmployeeCurrentValue'
     ])
   }
 })
@@ -179,6 +196,11 @@ export default Vue.extend({
     border: 1px solid #059D42;
   }
 
+  .error-feedback {
+    margin-left: 16px;
+    color: #E14646;
+  }
+
   @media screen and (max-width: 768px) {
     .title-header {
       margin-bottom: 48px;
@@ -188,7 +210,7 @@ export default Vue.extend({
     }
     .card-value {
       margin: 8px;
-      width: 140px;
+      width: 260px;
       min-width: unset;
     }
   }

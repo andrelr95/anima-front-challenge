@@ -14,12 +14,9 @@
       <div class="sidebar-backdrop" v-if="isOpen && !isSidebarFixed" @click="openPanel"></div>
       <transition name="slide">
         <aside class="sidebar-panel" v-if="isOpen || isSidebarFixed">
-
           <div class="logo">
             <span>LOGOTIPO</span>
-            <h1>{{$vssWidth}}</h1>
           </div>
-
           <nav id="nav" class="nav-container">
             <span class="subheader">Menu</span>
             <router-link to="/" class="nav-item">Home</router-link>
@@ -61,6 +58,7 @@ export default ({
     openPanel() {
       this.isOpen = !this.isOpen
     },
+
   }
 })
 </script>
