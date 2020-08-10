@@ -1,6 +1,13 @@
 <template>
   <div>
     <h1 class="title-header">Pessoas que vão ganhar dinheiro</h1>
+    <div class="error-container" v-show="hasError">
+      <span class="error-feedback">Houve um erro ao receber informações!</span>
+      <button class="btn-submit" @click="callEmpoyees()">Tentar novamente</button>
+    </div>
+    <div class="loading-container" v-show="isLoading">
+      <span><img src="../assets/icons/loading.gif" /></span>
+    </div>
     <div v-for="employee in employees" :key="employee.id">
       <Card leftContent tag :tagError="!employee.employee_current_value">
         <span slot="header">{{ employee.employee_name }} - {{ employee.employee_age }} anos.</span>
@@ -95,7 +102,8 @@ export default Vue.extend({
     },
     ...mapState({
       employees: state => state.employees.data,
-      hasError: state => state.employees.hasError
+      hasError: state => state.employees.hasError,
+      isLoading: state=> state.employees.isLoading
     }),
     ...mapGetters([
       'emptySallary'
@@ -199,6 +207,16 @@ export default Vue.extend({
   .error-feedback {
     margin-left: 16px;
     color: #E14646;
+  }
+
+  .error-container {
+    display: flex;
+  }
+
+  .loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   @media screen and (max-width: 768px) {

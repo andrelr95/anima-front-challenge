@@ -20,6 +20,7 @@ const getters = {
 const mutations = {
   getEmployeesRequest(state: TState) {
     state.isLoading = true
+    state.hasError = false
   },
   getEmployeesSuccess(state: TState, payload: IEmployee) {
     state.data = payload
@@ -29,6 +30,9 @@ const mutations = {
   getEmployeesFailure(state: TState) {
     state.isLoading = false
     state.hasError = true
+  },
+  clearEmployees(state: TState) {
+    state.data = null
   },
   setEmployeeCurrentValue(state: TState, payload: { id: number; value: number }) {
     const employeeIndex = state.data.findIndex((item: IEmployee) => item.id === payload.id)
@@ -42,6 +46,7 @@ const mutations = {
 
 const actions: ActionTree<any, any> = {
   async callEmpoyees({ commit }) {
+    commit('clearEmployees')
     commit('getEmployeesRequest')
     try {
       const response = await axiosInstance.get('/employees')
