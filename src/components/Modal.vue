@@ -3,7 +3,7 @@
     <div class="backdrop" @click="close"></div>
     <div class="modal-content">
       <div class="modal-header">
-        <span class="modal-title">{{ title }}</span>
+        <span class="modal-title" id="modal-title">{{ title }}</span>
         <button class="btn-icon" @click="close">
           <icon-base icon-name="close" icon-color="#FFF" width="14" height="14"><icon-close /></icon-base>
         </button>

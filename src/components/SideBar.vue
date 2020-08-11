@@ -1,7 +1,7 @@
 <template>
   <div class="menu-header">
-    <div class="navbar">
-      <button class="button-menu" @click="openPanel" type="button">
+    <div class="navbar" id="navbar">
+      <button class="button-menu" @click="togglePanel" type="button">
         <span class="burger-bar"></span>
         <span class="burger-bar burger-bar__2"></span>
         <span class="burger-bar burger-bar__3"></span>
@@ -10,8 +10,8 @@
         <span>LOGOTIPO</span>
       </div>
     </div>
-    <div class="sidebar">
-      <div class="sidebar-backdrop" v-if="isOpen && !isSidebarFixed" @click="openPanel"></div>
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-backdrop" v-if="isOpen && !isSidebarFixed" @click="togglePanel"></div>
       <transition name="slide">
         <aside class="sidebar-panel" v-if="isOpen || isSidebarFixed">
           <div class="logo">
@@ -55,7 +55,7 @@ export default ({
     },
   },
   methods: {
-    openPanel() {
+    togglePanel() {
       this.isOpen = !this.isOpen
     },
 
